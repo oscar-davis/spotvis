@@ -1,0 +1,37 @@
+body{
+  background : #999999 !important;
+  font-family: "Lucida Console", monaco;
+  margin: 0px;
+}
+.overlay {
+  background: rgba(0, 0, 0, 0.3);
+  width: 100vw;
+  height:80px;
+  display: grid;
+  position: absolute;
+  z-index: 1;
+}
+.header{
+  grid-template-columns: 80px 290px auto;
+  grid-template-rows: 48px;
+}
+.footer{
+  position: absolute;
+  bottom: 0;
+  grid-template-columns: 80px auto;
+  grid-template-rows: 80px;
+}
+.trackInfo{
+  margin-left: 15px;
+}
+.hudCam{
+  margin-left: 15px;
+}
+#visual{
+  position: absolute;
+  z-index: auto;
+}
+p{
+  color: white;
+  line-height: 90%;
+}

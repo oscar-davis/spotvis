@@ -1,0 +1,68 @@
+{% extends 'mainApp/base.html' %}
+{% load static %}
+{% block content %}
+<div class="frontPage">
+  <style>
+  .frontPage{
+    margin: auto;
+    text-align:center;
+    width: 100%;
+  }
+    .wrapper{
+      margin-top: 20vh;
+    }
+      #spotifyLogo{
+        margin : 0;
+      }
+      h1{
+        font-size: 96px;
+        color: #000000;
+        margin: 30px;
+        font-family: "Lucida Console", monaco;
+      }
+      .button{
+        background: #999999;
+        color: #000000;
+        border-color: #000000;
+        font-size: 16px;
+        font-family: "Lucida Console", monaco;
+      }
+      .button:hover{
+        background-color:#DDDDDD;
+        transition: background-color 0.2s;
+      }
+      .button:active{
+        border-top: 3px solid #000000;
+        border-left: 3px solid #000000;
+      }
+        .enter{
+          /* text style set to none */
+          /* get the box in the middle, maybe need to draw it from center */
+          position: absolute;
+          border: 1px solid #000000;
+          padding: 16px 64px 16px 64px;
+        }
+        .github{
+          position: absolute;
+          bottom: 30px;
+          left: 30px;
+        }
+      #version{
+        color: #000000;
+        position: absolute;
+        bottom: 15px;
+        right: 30px;
+      }
+  </style>
+  <div class="wrapper">
+    <img id="spotifyLogo" src="{% static '/images/spotify.png' %}" width="80px">
+    <h1>SPOTIFY<br>VISUALIZER</h1>
+    <!-- <button id="enterBtn" class="enter button" type="button">ENTER</button> -->
+    <a class="button enter" href="/authSend">ENTER</a>
+    <form class="links" action="https://github.com/oscar-davis/spotvis" target="_blank">
+      <button class="github button" type="submit">Github</button>
+    </form>
+    <p id="version">beta v0.1</p>
+  </div>
+</div>
+{% endblock %}

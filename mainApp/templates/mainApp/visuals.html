@@ -1,0 +1,23 @@
+{% extends 'mainApp/base.html' %}
+{% load static %}
+{% block content %}
+<!-- <script src="{% static 'data.js' %}"></script> -->
+<script id="visual" type="module" src="{% static 'visuals.js' %}"></script>
+<div class="overlay header" id="overlayHeader">
+  <div class="stats">
+  </div>
+  <p id="hudCam" class="hudCam">camera: x: y: z: </p>
+  <div class="props">
+      <p id="hudProps">props</p>
+  </div>
+</div>
+<script type="text/javascript">$("#overlayHeader").hide();</script>
+
+<div class="overlay footer" id="overlayFooter">
+  <img id="artwork" width="80px" src="">
+  <div class="trackInfo">
+      <p id="hudArtist">Artist</p>
+      <p id="hudTrack">Track</p>
+  </div>
+</div>
+{% endblock %}
