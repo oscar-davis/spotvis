@@ -8,7 +8,7 @@ import json
 
 CLIENT_ID = 'a4b853b600994ffc93fa8494751523fe'
 CLIENT_SECRET = 'c2854b4fc1a34972a8e2a46368ffbe41'
-REDIRECT_URI = 'http://localhost:8000/callback'
+REDIRECT_URI = 'https://thawing-reef-65294.herokuapp.com/callback'
 SCOPE = 'user-read-currently-playing'
 
 def authSend(request):
