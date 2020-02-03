@@ -29,9 +29,6 @@ def callback(request):
 
     response = requests.post(post_url,body)
 
-    print("token is:")
-    print(response.json()['access_token'])
-
     request.session['token'] = response.json()['access_token']
 
     return redirect('/visuals')

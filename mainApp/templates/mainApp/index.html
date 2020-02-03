@@ -36,9 +36,8 @@
         border-left: 3px solid #000000;
       }
         .enter{
-          /* text style set to none */
-          /* get the box in the middle, maybe need to draw it from center */
-          position: absolute;
+          text-decoration: none;
+          display: inline-block;
           border: 1px solid #000000;
           padding: 16px 64px 16px 64px;
         }
@@ -53,12 +52,16 @@
         bottom: 15px;
         right: 30px;
       }
+      #enterContainer{
+        text-align: center;
+      }
   </style>
   <div class="wrapper">
     <img id="spotifyLogo" src="{% static '/images/spotify.png' %}" width="80px">
     <h1>SPOTIFY<br>VISUALIZER</h1>
-    <!-- <button id="enterBtn" class="enter button" type="button">ENTER</button> -->
-    <a class="button enter" href="/authSend">ENTER</a>
+    <div id="enterContainer">
+      <a class="button enter" href="/authSend">ENTER</a>
+    </div>
     <form class="links" action="https://github.com/oscar-davis/spotvis" target="_blank">
       <button class="github button" type="submit">Github</button>
     </form>
