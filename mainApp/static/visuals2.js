@@ -1,58 +1,32 @@
 ////////////////
 //   SETUP    //
 ////////////////
-//console.log("1 importing");
 import {OrbitControls} from "/static/libraries/three.js/OrbitControls.js";
 import Stats from '/static/libraries/three.js/stats.module.js';
-
-//console.log("2 constants");
 //CONSTANTS
-
 // props
 var artist = 'artist';
 var track = 'track';
 var energy = 0.1;
 var key = 5;
 var cube;
-
 //scene
 var scene;
 var camera;
 var stats;
 var renderer;
-
 var progress = 0.1;
 var trackPosition = 0;
 var lastTrackPositionUpdate = 0;
 var trackBeats = [];
 var nextTrackBeat = 0;
-
+var beatNo = 1;
 ////////////////////
 // TIMED REQUESTS //
 ////////////////////
 function timedGetRequest() {
   getTrackPosition();
 }
-
-////////////////////
-// EVENT HANDLERS //
-////////////////////
-
-$(window).keydown(function( event ) {
-  if ( event.which == 72 ) {// h key pressed
-		//hide user HUD
-		$("#overlayFooter").toggle({duration:0});
-	}
-	else if ( event.which == 73 ) {// i key pressed
-		// hide info display
-		$("#overlayHeader").toggle({duration:0});
-	}
-  else if ( event.which == 82 ) {// r key pressed
-    //console.log("r key pressed");
-    // reload page
-  }
-});
-
 // setup functions
 createScene();
 getTrackPosition();
@@ -146,13 +120,34 @@ function animate() {
     i ++;//move to next beat
   }
 
-  // print out a beat message
+
+
+  // do stuff on beat:
   if (i > nextTrackBeat) {
     // console.log("nextTrackBeat: "+nextTrackBeat);
-    console.log('BEAT #' + i + ' at ' + trackPosition + ' ms')
+    // console.log('BEAT #' + i + ' at ' + trackPosition + ' ms')
     nextTrackBeat = i;
-    cube.rotation.x+=0.5;
+    if(beatNo==1||beatNo==3){
+      cube.scale.y += 1;
+      cube.scale.x += 1;
+      beatNo ++;
+    }
+    else if(beatNo==2||beatNo==4){
+      cube.scale.y -= 1;
+      cube.scale.x -= 1;
+      beatNo ++;
+    }
+    if(beatNo==5){
+      beatNo=1;
+    }
+
+
   }
+
+  //constant animation bits
+  cube.rotation.z += 0.01;
+  cube.rotation.y += 0.01;
+
 }
 
 // get the artwork, artist and track name, and update the user HUD
