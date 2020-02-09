@@ -111,6 +111,8 @@ function createScene(){
 	stats = new Stats();
 	stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
 	$(".stats").append( stats.dom );
+
+	var axes = new THREE.AxesHelper(200); scene.add(axes);
 }
 
 //render the head

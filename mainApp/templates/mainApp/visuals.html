@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 <!-- <script src="{% static 'data.js' %}"></script> -->
-<script id="visual" type="module" src="{% static 'visuals.js' %}"></script>
+<script id="visual" type="module" src="{% static 'visuals2.js' %}"></script>
 <div class="overlay header" id="overlayHeader">
   <div class="stats">
   </div>
@@ -19,5 +19,8 @@
       <p id="hudArtist">Artist</p>
       <p id="hudTrack">Track</p>
   </div>
+  <svg id="progressContainer" width="500" height="20" style="background-color:#555555;">
+    <rect id="progressBar"width="0px" height="20px" style="fill:#1199FF;" />
+  </svg>
 </div>
 {% endblock %}

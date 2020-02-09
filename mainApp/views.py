@@ -8,7 +8,8 @@ import json
 
 CLIENT_ID = 'a4b853b600994ffc93fa8494751523fe'
 CLIENT_SECRET = 'c2854b4fc1a34972a8e2a46368ffbe41'
-REDIRECT_URI = 'https://thawing-reef-65294.herokuapp.com/callback'
+REDIRECT_URI = 'http://localhost:8000/callback'
+# REDIRECT_URI = 'https://thawing-reef-65294.herokuapp.com/callback'
 SCOPE = 'user-read-currently-playing'
 
 def authSend(request):
@@ -64,4 +65,27 @@ def props(request):
 
     return JsonResponse({
         'props' : props
+    })
+
+def trackPosition(request):
+    spotify = spotipy.Spotify(auth=request.session['token'])
+
+    current_track = spotify.currently_playing()
+    art = current_track['item']['album']['images'][0]['url']
+    artist = current_track['item']['artists']
+    track = current_track['item']['name']
+    trackId = current_track['item']['id']
+    duration = current_track['item']['duration_ms']
+
+    analysis = spotify.audio_analysis(trackId)
+    beats = analysis['beats']
+    position = current_track['progress_ms']
+
+    return JsonResponse({
+        'duration' : duration,
+        'position' : position,
+        'beats' : beats,
+        'art' : art,
+        'artist' : artist,
+        'track' : track
     })

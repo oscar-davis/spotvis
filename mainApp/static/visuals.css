@@ -18,7 +18,7 @@ body{
 .footer{
   position: absolute;
   bottom: 0;
-  grid-template-columns: 80px auto;
+  grid-template-columns: 80px auto auto;
   grid-template-rows: 80px;
 }
 .trackInfo{
@@ -34,4 +34,14 @@ body{
 p{
   color: white;
   line-height: 90%;
+}
+#progressContainer{
+  position: absolute;
+  right:0;
+  bottom:30;
+  margin-top: 30px;
+  margin-right: 20px;
+}
+#progressBar{
+  transition: 5s;
 }
