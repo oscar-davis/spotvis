@@ -5,10 +5,12 @@ import spotipy.util as util
 import requests
 from django.shortcuts import redirect
 import json
+import base64
 
 CLIENT_ID = '39b910c2cd1b410d8dd7cf2623297970'
 CLIENT_SECRET = '452b27dec33a40c3bf16c72c29908ece'
 REDIRECT_URI = 'http://localhost:8000/callback'
+encodedData = base64.b64encode(bytes(f"{CLIENT_ID}:{CLIENT_SECRET}", "ISO-8859-1")).decode("ascii")
 # REDIRECT_URI = 'https://thawing-reef-65294.herokuapp.com/callback'
 SCOPE = 'user-read-currently-playing'
 
@@ -19,7 +21,6 @@ def authSend(request):
       '&scope=' + SCOPE +
       '&redirect_uri=' + REDIRECT_URI
     )
-    print(response)
     return response
 
 def callback(request):
@@ -31,7 +32,22 @@ def callback(request):
     response = requests.post(post_url,body)
 
     request.session['token'] = response.json()['access_token']
+    request.session['refresh'] = response.json()['refresh_token']
 
+    return redirect('/visuals')
+
+def refresh(request):
+    #  need to add in when/how to trigger refresh tokens, but this is correct
+    url = "https://accounts.spotify.com/api/token"
+    headers = {
+        'Authorization': encodedData
+    }
+    data = {
+        'grant_type':'refresh_token',
+        'refresh_token':request.session['refresh'],
+    }
+    response = requests.post(url = url, data = data, headers=headers)
+    request.session['token'] = response.json()['access_token']
     return redirect('/visuals')
 
 def index(request):
@@ -67,7 +83,7 @@ def props(request):
     liveness = features[0]['liveness']
     timeSig = features[0]['time_signature']
     mode = features[0]['mode']
-    loudness = features[0]['loudness']
+    segments = analysis['segments']
 
     return JsonResponse({
         'duration' : duration,
@@ -87,5 +103,5 @@ def props(request):
         'liveness': liveness,
         'timeSig': timeSig,
         'mode': mode,
-        'loudness': loudness
+        'segments': segments
     })

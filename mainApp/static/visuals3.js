@@ -7,11 +7,15 @@ import Stats from '/static/libraries/three.js/stats.module.js';
 var artist = 'artist';
 var track = 'track';
 var acoustic, dance, energy, instrument, speech, valence, tempo, key, liveness, timeSig, mode, loudness;
+var loudness_max = [];
+var loudness_start = [];
 //scene
 var scene;
 var camera;
 var stats;
 var renderer;
+var controls;
+var start=0;
 //timing
 var currentTrack;
 var progress = 0.1;
@@ -21,11 +25,14 @@ var lastTrackPositionUpdate = 0;
 var trackBeats = [];
 var nextTrackBeat = 0;
 var beatNo = 1;
+//ANIMATION
+var cube;
 ///////////////////
 // BOOTSTRAPPING //
 ///////////////////
 initScene();
 animate();
+getProps();
 var timedGETRequests = setInterval(getProps, 2500);
 ////////////////////
 // EVENT HANDLERS //
@@ -65,7 +72,13 @@ function getProps(){
       liveness = data.liveness;
       timeSig = data.timeSig;
       mode = data.mode;
-      loudness = data.loudness;
+      loudness_start.length = 0;
+      loudness_max.length = 0;
+      for (var i = 0; i < data.segments.length; i++) {
+        loudness_start[i]=data.segments[i]['start'];
+        loudness_max[i]=data.segments[i]['loudness_max']
+      }
+      console.log("\n\n"+loudness_max +"\n\n"+loudness_start);
       //update props HUD
       $('#hudProps').text("acousticness: " +acoustic+", danceability: "+dance+ ", energy: "+energy+", instrumentalness: "+instrument+ ", speech: "+speech+", valence: "+valence+", tempo: "+tempo+", key: "+key+", liveness: "+liveness+", time signature: "+timeSig+", mode: "+mode+", loudness: "+loudness);
       // timing
@@ -78,7 +91,9 @@ function getProps(){
       currentTrack = data.track;
       $("#hudArtist").text(artist);
       $("#hudTrack").text(track);
-      $("#artwork").attr({ "src": data.art });
+      if ( $("#artwork").attr("src") != data.art ){
+        $("#artwork").attr({ "src": data.art });
+      }
       selectScene();
     }
   })
@@ -92,11 +107,6 @@ function initScene(){
 	scene.fog = new THREE.Fog( 0x000000, 200, 600 );
 	// create camera to provide a user's perspective
 	camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 2000 );
-	//position the camera so we can see the whole scene
-	camera.position.x = 0;
-	camera.position.y = -30;
-	camera.position.z = 18;
-	// create a renderer instance that we can use to render to our scene
 	renderer = new THREE.WebGLRenderer({antialias:true});
 	// render canvas set to the size of the window
 	renderer.setSize(window.innerWidth, window.innerHeight);
@@ -105,28 +115,32 @@ function initScene(){
 	// append the renderer to the html page
 	document.body.appendChild(renderer.domElement);
 	// initialise OrbitControls
-	var controls = new OrbitControls( camera, renderer.domElement );
+	controls = new OrbitControls( camera, renderer.domElement );
+  controls.addEventListener( 'change', render );
 	// stats
 	stats = new Stats();
 	stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
 	$(".stats").append( stats.dom );
 }
+function render() {
+    renderer.render( scene, camera );
+}
 ////////////////////
 //  SELECT SCENE  //
 ////////////////////
 function selectScene(){
-  console.log("about to empty scene\n");
   emptyScene();
-  console.log("scene has been emptied\n");
-  if(energy>0.5) {
+  // check if 2d or 3d needed:
+  if(energy<0.5) {
     console.log("energy > 0.5, activate scene1");
     scene1();
   }
-  else if(energy<=0.5) {
+  else if(energy>=0.5) {
     console.log("energy < 0.5, activate scene2");
     scene2();
   }
-
+  $("#loading").hide();
+  $("#overlayFooter").show();
 }
 function emptyScene(){
   console.log("emptying scene\n");
@@ -134,22 +148,62 @@ function emptyScene(){
       scene.remove(scene.children[0]);
   }
 }
+//scene 1
 function scene1(){
   console.log("activate scene 1");
-  // plane
-	var gridDim = 8; // dimensions of one grid cell
-	var gridNum = 32; //number of rows of the grid
-	var gridSize = gridNum * gridDim; //dimensions of whole
-  var geometry = new THREE.PlaneGeometry(gridSize,gridSize,gridNum,gridNum);
-  var material = new THREE.MeshStandardMaterial({wireframe:true});
-  var plane = new THREE.Mesh( geometry, material );
-  scene.add(plane);
+  controls.autoRotate = true;
+	//position the camera so we can see the whole scene
+	camera.position.x = 0;
+	camera.position.y = -20;
+	camera.position.z = 28;
+  controls.update();
+	//cubemap
+	var path = '/static/textures/cube/Day'+rando(1, 14)+'/';
+	var format = '.jpg';
+	var urls = [
+		path + 'px' + format, path + 'nx' + format,
+		path + 'py' + format, path + 'ny' + format,
+		path + 'pz' + format, path + 'nz' + format
+	];
+	var reflectionCube = new THREE.CubeTextureLoader().load( urls );
+	reflectionCube.format = THREE.RGBFormat;
+  scene.background = reflectionCube;
+  //cube
+  var cubeGeo = new THREE.BoxGeometry(10,10,10);
+  var cubeMat = new THREE.MeshLambertMaterial( { color: 0xffffff, envMap: reflectionCube } );
+  cube = new THREE.Mesh( cubeGeo, cubeMat );
+  scene.add(cube);
   // add lights
   var ambientLight = new THREE.AmbientLight( 0xFFFFFF, 1);
   scene.add(ambientLight);
 }
 function scene2(){
-  console.log("activating scene 2");
+  console.log("activate scene 2");
+  controls.autoRotate = true;
+	//position the camera so we can see the whole scene
+	camera.position.x = 0;
+	camera.position.y = -20;
+	camera.position.z = 28;
+  controls.update();
+	//cubemap
+	var path = '/static/textures/cube/Night'+rando(1, 6)+'/';
+	var format = '.jpg';
+	var urls = [
+		path + 'px' + format, path + 'nx' + format,
+		path + 'py' + format, path + 'ny' + format,
+		path + 'pz' + format, path + 'nz' + format
+	];
+	var reflectionCube = new THREE.CubeTextureLoader().load( urls );
+	reflectionCube.format = THREE.RGBFormat;
+  scene.background = reflectionCube;
+  //cube
+  var cubeGeo = new THREE.BoxGeometry(10,10,10);
+  var cubeMat = new THREE.MeshLambertMaterial( { color: 0xffffff, envMap: reflectionCube } );
+  cube = new THREE.Mesh( cubeGeo, cubeMat );
+  scene.add(cube);
+  // add lights
+  var ambientLight = new THREE.AmbientLight( 0xFFFFFF, 1);
+  scene.add(ambientLight);
 }
 ///////////////////
 //   ANIMATION   //
@@ -158,9 +212,11 @@ function animate() {
   /////////////////
   // SYSTEM BITS //
   /////////////////
+  start++;
+  requestAnimationFrame( animate );
 	stats.update();
   renderer.render( scene, camera );
-  requestAnimationFrame( animate );
+  controls.update();
   // update track position:
   var t = (new Date()).getTime();//1: get the actual time now
   if (lastTrackPositionUpdate == 0) {//if there is no last track position, make it equal to current time
@@ -175,15 +231,34 @@ function animate() {
   }
   if (i > nextTrackBeat) {
     nextTrackBeat = i;
-  /////////////////////
-  // SYNCED MOVEMENT //
-  /////////////////////
-  console.log("beat");
+    /////////////////////
+    // SYNCED MOVEMENT //
+    /////////////////////
+    if(beatNo==1||beatNo==3){
+      cube.scale.y += 1;
+      cube.scale.x += 1;
+      beatNo ++;
+    }
+    else if(beatNo==2||beatNo==4){
+      cube.scale.y -= 1;
+      cube.scale.x -= 1;
+      beatNo ++;
+    }
+    if(beatNo==5){
+      beatNo=1;
+    }
   }
   //////////////////////
   // ASYNCED MOVEMENT //
   //////////////////////
-
+  if(start>100){
+    cube.rotation.z += 0.001;
+    cube.rotation.y += 0.001;
+  }
   progress = trackPosition/trackDuration;
   $("#progressBar").width(progress*500);
+  ////////////////
+  // HUD UPDATE //
+  ////////////////
+	$("#hudCam").text("camera: x:"+ Math.round(camera.position.x)+" y:"+Math.round(camera.position.y)+" z:"+Math.round(camera.position.z));
 }

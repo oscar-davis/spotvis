@@ -7,7 +7,8 @@ urlpatterns = [
     path('authSend', views.authSend, name='authSend'),
     path('callback', views.callback, name='callback'),
     path('visuals', views.visuals, name='visuals'),
-    path('props', views.props, name='props')
+    path('props', views.props, name='props'),
+    path('refresh', views.refresh, name='refresh')
 ]
 #entry point in URL dispatcher then:
 #view which presents the results to the template

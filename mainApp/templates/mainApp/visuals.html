@@ -1,7 +1,24 @@
 {% extends 'mainApp/base.html' %}
 {% load static %}
 {% block content %}
-<script id="visual" type="module" src="{% static 'visuals3.js' %}"></script>
+<script src="https://d3js.org/d3-color.v1.min.js"></script>
+<script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+  <script src="https://randojs.com/1.0.0.js"></script>
+  <div class="loading" id="loading">
+    <img width="300px"src="https://media.giphy.com/media/xTkcEQACH24SMPxIQg/giphy.gif" alt="loading_gif">
+  </div>
+  <style>
+    .loading{
+      background: #16151A !important;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 100vw;
+      height: 100vh;
+      z-index: 10;
+    }
+  </style>
+<script id="visual" type="module" src="{% static 'visuals4.js' %}"></script>
 <div class="overlay header" id="overlayHeader">
   <div class="stats">
   </div>
@@ -10,7 +27,6 @@
       <p id="hudProps">props</p>
   </div>
 </div>
-<script type="text/javascript">//$("#overlayHeader").hide();</script>
 
 <div class="overlay footer" id="overlayFooter">
   <img id="artwork" width="80px" src="">
@@ -22,4 +38,8 @@
     <rect id="progressBar"width="0px" height="20px" style="fill:#1199FF;" />
   </svg>
 </div>
+<script type="text/javascript">
+  $("#overlayHeader").hide();
+  $("#overlayFooter").hide();
+</script>
 {% endblock %}
