@@ -7,11 +7,13 @@ from django.shortcuts import redirect
 import json
 import base64
 
-CLIENT_ID = '39b910c2cd1b410d8dd7cf2623297970'
-CLIENT_SECRET = '452b27dec33a40c3bf16c72c29908ece'
-REDIRECT_URI = 'http://localhost:8000/callback'
+# CLIENT_ID = '39b910c2cd1b410d8dd7cf2623297970'
+CLIENT_ID = 'a4b853b600994ffc93fa8494751523fe'
+# CLIENT_SECRET = '452b27dec33a40c3bf16c72c29908ece'
+CLIENT_SECRET = 'c2854b4fc1a34972a8e2a46368ffbe41'
+REDIRECT_URI = 'https://thawing-reef-65294.herokuapp.com/callback'
+# REDIRECT_URI = 'http://localhost:8000/callback'
 encodedData = base64.b64encode(bytes(f"{CLIENT_ID}:{CLIENT_SECRET}", "ISO-8859-1")).decode("ascii")
-# REDIRECT_URI = 'https://thawing-reef-65294.herokuapp.com/callback'
 SCOPE = 'user-read-currently-playing'
 
 def authSend(request):
