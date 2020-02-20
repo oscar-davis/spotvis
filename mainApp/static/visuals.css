@@ -1,5 +1,5 @@
 body{
-  background : #555555 !important;
+  background : #000000 !important;
   font-family: "Lucida Console", monaco;
   margin: 0px;
 }
@@ -9,7 +9,14 @@ body{
   height:80px;
   display: grid;
   position: absolute;
-  z-index: 1;
+  z-index: 1000;
+}
+#visual{
+  position: absolute;
+  z-index: 0;
+}
+.video{
+  z-index: -1 !important;
 }
 .header{
   grid-template-columns: 80px 290px auto;
@@ -26,10 +33,6 @@ body{
 }
 .hudCam{
   margin-left: 15px;
-}
-#visual{
-  position: absolute;
-  z-index: auto;
 }
 p{
   color: white;

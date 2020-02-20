@@ -3,6 +3,7 @@
 {% block content %}
 <script src="https://d3js.org/d3-color.v1.min.js"></script>
 <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+<script src="{% static '/libraries/p5.min.js' %}" charset="utf-8"></script>
   <script src="https://randojs.com/1.0.0.js"></script>
   <div class="loading" id="loading">
     <img width="300px"src="https://media.giphy.com/media/xTkcEQACH24SMPxIQg/giphy.gif" alt="loading_gif">
@@ -18,7 +19,8 @@
       z-index: 10;
     }
   </style>
-<script id="visual" type="module" src="{% static 'visuals4.js' %}"></script>
+<script id="visual" src="{% static 'visuals7.js' %}"></script>
+<!-- <script id="visual" type="module" src="{% static 'visuals4.js' %}"></script> -->
 <div class="overlay header" id="overlayHeader">
   <div class="stats">
   </div>
@@ -38,8 +40,12 @@
     <rect id="progressBar"width="0px" height="20px" style="fill:#1199FF;" />
   </svg>
 </div>
+<div id=videoWrapper>
+  <iframe class="video" id="video" style="position: absolute; top: 0; left: 0;" src="https://www.youtube.com/embed/jkLRith2wcc?autoplay=1;start=23&autoplay=1&mute=1&showinfo=0&controls=0&loop=1" width="100%" height="100%" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+</div>
 <script type="text/javascript">
   $("#overlayHeader").hide();
   $("#overlayFooter").hide();
+  // $("#videoWrapper").hide();
 </script>
 {% endblock %}
