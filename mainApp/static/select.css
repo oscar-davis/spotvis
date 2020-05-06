@@ -1,0 +1,31 @@
+#selectContainer {
+    display:grid;
+    margin: auto;
+    text-align: center;
+    grid-template-columns: auto 250px 250px 250px auto;
+    grid-template-rows:  200px 50px;
+}
+.buttonimg{
+}
+.thumbnail{
+  grid-row: 1;
+}
+.select{
+  grid-row: 2;
+  text-decoration: none;
+  border: 1px solid #000000;
+  padding: 16px;
+}
+#headContainer{
+  grid-column: 2;
+}
+#colourContainer{
+    grid-column: 3;
+}
+#cubeContainer{
+    grid-column: 4;
+}
+.feedback{
+  text-decoration: none;
+  border: 1px solid #000000;
+}

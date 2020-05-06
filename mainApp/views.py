@@ -33,7 +33,7 @@ def callback(request):
     request.session['token'] = response.json()['access_token']
     request.session['refresh'] = response.json()['refresh_token']
 
-    return redirect('/movingColours')
+    return redirect('/select')
 
 def refresh(request):
     #  need to add in when/how to trigger refresh tokens, but this is correct
@@ -58,8 +58,8 @@ def index(request):
     template_name = 'mainApp/index.html'
     return render(request, template_name)
 
-def visuals(request):
-    template_name = 'mainApp/head.html'
+def select(request):
+    template_name = 'mainApp/select.html'
     return render(request, template_name)
 
 def props(request):

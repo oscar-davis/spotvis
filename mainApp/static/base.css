@@ -1,0 +1,111 @@
+body{
+  background : #666666 !important;
+  font-family: "Lucida Console", monaco;
+  margin: 0px;
+}
+.frontPage{
+  margin: auto;
+  text-align:center;
+  width: 100%;
+}
+.wrapper{
+  margin: auto;
+  margin-top: 20vh;
+  text-align: center;
+}
+  #spotifyLogo{
+    margin : 0;
+  }
+  h1{
+    font-size: 96px;
+    color: #000000;
+    margin: 30px;
+    font-family: "Lucida Console", monaco;
+  }
+  .buttonimg{
+    display:grid;
+    grid-template-columns:  200px;
+    grid-template-rows:  200px 50px;
+  }
+  .button{
+    background: #666666;
+    color: #000000;
+    border-color: #000000;
+    font-size: 16px;
+    font-family: "Lucida Console", monaco;
+  }
+  .button:hover{
+    background-color:#DDDDDD;
+    transition: background-color 0.2s;
+  }
+  .button:active{
+    border-top: 3px solid #000000;
+    border-left: 3px solid #000000;
+  }
+    .enter{
+      text-decoration: none;
+      display: inline-block;
+      border: 1px solid #000000;
+      padding: 16px 64px 16px 64px;
+    }
+    .github{
+      text-decoration: none;
+      display: inline-block;
+      position: absolute;
+      border: 1px solid #000000;
+      bottom: 30px;
+      left: 30px;
+    }
+  #version{
+    position: absolute;
+    bottom: 15px;
+    right: 30px;
+  }
+  #enterContainer{
+    text-align: center;
+  }
+.overlay {
+  background: rgba(0, 0, 0, 0.3);
+  width: 100vw;
+  height:80px;
+  display: grid;
+  position: absolute;
+  z-index: 1000;
+}
+#visual{
+  position: absolute;
+  z-index: 0;
+}
+.video{
+  z-index: -1 !important;
+}
+.header{
+  grid-template-columns: 80px 290px auto;
+  grid-template-rows: 48px;
+}
+.footer{
+  position: absolute;
+  bottom: 0;
+  grid-template-columns: 80px auto auto;
+  grid-template-rows: 80px;
+}
+.trackInfo{
+  margin-left: 15px;
+}
+.hudCam{
+  margin-left: 15px;
+}
+p{
+  color: #000000;
+  line-height: 90%;
+}
+#progressContainer{
+  position: absolute;
+  right:0;
+  bottom:30;
+  margin-top: 30px;
+  margin-right: 20px;
+}
+#progressBar{
+  transition: 0s;
+}

@@ -1,0 +1,38 @@
+{% extends 'mainApp/base.html' %}
+{% load static %}
+{% block content %}
+<div class="frontPage">
+  <link rel="stylesheet" type="text/css" href="{% static 'select.css' %}">
+  <div class="wrapper">
+    <p>** EPILEPSY WARNING: MAY CONTAIN FLASHING IMAGES **</p>
+    <br><br>
+    <div id="selectContainer">
+
+      <div class="buttonimg" id="headContainer">
+        <a class="button select" href="/4head">4HEAD</a>
+        <img class="thumbnail" id="movingColoursImg" src="{% static '/images/head.png' %}" width="200px">
+      </div>
+
+      <div class="buttonimg" id="colourContainer">
+        <a class="button select" href="/movingColours">MOVING COLOURS</a>
+        <img class="thumbnail" id="movingColoursImg" src="{% static '/images/movingColours.png' %}" width="200px">
+      </div>
+
+      <div class="buttonimg" id="cubeContainer">
+        <a class="button select" href="/360cube">DANCING CUBE</a>
+        <img class="thumbnail" id="movingColoursImg" src="{% static '/images/cube.png' %}" width="200px">
+      </div>
+
+    </div>
+    <br><br>
+    <p>PLEASE GIVE FEEDBACK HERE:</p>
+    <form class="links" action="https://github.com/oscar-davis/spotvis" target="_blank">
+      <button class="feedback button" type="submit">FEEDBACK</button>
+    </form>
+    <form class="links" action="https://github.com/oscar-davis/spotvis" target="_blank">
+      <button class="github button" type="submit">&ltsource&gt</button>
+    </form>
+    <p id="version">v1.0 © Oscar Davis</p>
+  </div>
+</div>
+{% endblock %}
