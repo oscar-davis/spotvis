@@ -1,0 +1,48 @@
+{% extends 'mainApp/base.html' %}
+{% load static %}
+{% block content %}
+<script src="https://d3js.org/d3-color.v1.min.js"></script>
+<script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+<script src="{% static '/libraries/p5.min.js' %}" charset="utf-8"></script>
+  <script src="https://randojs.com/1.0.0.js"></script>
+  <div class="loading" id="loading">
+    <img width="300px"src="https://media.giphy.com/media/xTkcEQACH24SMPxIQg/giphy.gif" alt="loading_gif">
+  </div>
+  <style>
+    .loading{
+      background: #16151A !important;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 100vw;
+      height: 100vh;
+      z-index: 10;
+    }
+  </style>
+<!-- <script id="visual" src="{% static 'getData.js' %}"></script> -->
+<script id="visual" type="module" src="{% static 'head.js' %}"></script>
+<div class="overlay header" id="overlayHeader">
+  <div class="stats">
+  </div>
+  <p id="hudCam" class="hudCam">camera: x: y: z: </p>
+  <div class="props">
+      <p id="hudProps">props</p>
+  </div>
+</div>
+
+<div class="overlay footer" id="overlayFooter">
+  <img id="artwork" width="80px" src="">
+  <div class="trackInfo">
+      <p id="hudArtist">Artist</p>
+      <p id="hudTrack">Track</p>
+  </div>
+  <svg id="progressContainer" width="500" height="20" style="background-color:#555555;">
+    <rect id="progressBar"width="0px" height="20px" style="fill:#1199FF;" />
+  </svg>
+</div>
+<script type="text/javascript">
+  $("#overlayHeader").hide();
+  $("#overlayFooter").hide();
+  // $("#videoWrapper").hide();
+</script>
+{% endblock %}

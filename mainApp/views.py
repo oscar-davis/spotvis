@@ -6,7 +6,7 @@ import requests
 from django.shortcuts import redirect
 import json
 import base64
-
+# admin global variables
 CLIENT_ID = '39b910c2cd1b410d8dd7cf2623297970'
 CLIENT_SECRET = '452b27dec33a40c3bf16c72c29908ece'
 REDIRECT_URI = 'http://localhost:8000/callback'
@@ -14,7 +14,6 @@ REDIRECT_URI = 'http://localhost:8000/callback'
 encodedData = base64.urlsafe_b64encode(bytes(f"{CLIENT_ID}:{CLIENT_SECRET}", "ISO-8859-1")).decode()
 # REDIRECT_URI = 'https://thawing-reef-65294.herokuapp.com/callback'
 SCOPE = 'user-read-currently-playing'
-
 def authSend(request):
     response = redirect('https://accounts.spotify.com/authorize' +
       '?response_type=code' +
@@ -34,7 +33,7 @@ def callback(request):
     request.session['token'] = response.json()['access_token']
     request.session['refresh'] = response.json()['refresh_token']
 
-    return redirect('/visuals')
+    return redirect('/movingColours')
 
 def refresh(request):
     #  need to add in when/how to trigger refresh tokens, but this is correct
@@ -53,36 +52,42 @@ def refresh(request):
     print("\n\n\n\n\n\n")
     request.session['token'] = response.json()['access_token']
 
-    return redirect('/visuals')
+    return redirect('/movingColours')
 
 def index(request):
     template_name = 'mainApp/index.html'
     return render(request, template_name)
 
 def visuals(request):
-    template_name = 'mainApp/visuals.html'
+    template_name = 'mainApp/head.html'
     return render(request, template_name)
 
 def props(request):
-    # get data
-    # tuen this into a try statement, if returns no code then get new code and try again
-    # spotipy.client.SpotifyException: http status: 401, code:-1 - https://api.spotify.com/v1/me/player/currently-playing: The access token expired
-    # try:
+    # create spotipy object
     spotify = spotipy.Spotify(auth=request.session['token'])
+    # get current track
     current_track = spotify.currently_playing()
-    art = current_track['item']['album']['images'][0]['url']
-    artistName = current_track['item']['artists'][0]['name']
-    artist = spotify.artist(current_track['item']['artists'][0]['id'])
-    artistArtwork = artist['images'][0]['url']
-    track = current_track['item']['name']
-    trackId = current_track['item']['id']
-    duration = current_track['item']['duration_ms']
-    analysis = spotify.audio_analysis(trackId)
-    # print(analysis)
-    features = spotify.audio_features(trackId)
-    beats = analysis['beats']
-    position = current_track['progress_ms']
-    # props
+    position = current_track['progress_ms']# get position in track
+    art = current_track['item']['album']['images'][0]['url']# album art
+    artistName = current_track['item']['artists'][0]['name']# artist name
+    artist = spotify.artist(current_track['item']['artists'][0]['id'])# artist object
+    track = current_track['item']['name']# track name
+    trackId = current_track['item']['id']# track id
+    duration = current_track['item']['duration_ms']# duration of track
+    analysis = spotify.audio_analysis(trackId)# audio analysis object
+    features = spotify.audio_features(trackId)# audio features object
+    beats = analysis['beats']# array of beat time locations
+    # set segments, timbre and pitches
+    # segments = list()
+    # pitches = list()
+    # timbres = list()
+    # i = 0
+    # while (i<len(analysis['segments'])):
+    #     segments.append(analysis['segments'][i]['start'])
+    #     pitches.append(analysis['segments'][i]['pitches'])
+    #     timbres.append(analysis['segments'][i]['timbre'])
+    #     i += 1
+    #props:
     acoustic = features[0]['acousticness']
     dance = features[0]['danceability']
     energy = features[0]['energy']
@@ -94,19 +99,17 @@ def props(request):
     liveness = features[0]['liveness']
     timeSig = features[0]['time_signature']
     mode = features[0]['mode']
-    segments = analysis['segments']
-    # except:
-    #         return redirect('/refresh')
-# analysis:
-# 'pitches': [0.777, 1.0, 0.231, 0.197, 0.218, 0.297, 0.315, 0.198, 0.207, 0.217, 0.156, 0.286], 'timbre': [49.812, 44.107, 11.131, 72.896, 30.448, -45.654, -15.645, 7.921, -2.901, 9.46, 0.925, -8.524]}
+
     return JsonResponse({
         'duration' : duration,
         'position' : position,
-        'beats' : beats,
-        'art' : art,
         'artist' : artistName,
-        'artistArtwork' : artistArtwork,
         'track' : track,
+        'art' : art,
+        'beats' : beats,
+        # 'segments' : segments,
+        # 'pitches' : pitches,
+        # 'timbres' : timbres,
         'acoustic': acoustic,
         'dance': dance,
         'energy': energy,
@@ -117,6 +120,53 @@ def props(request):
         'key': key,
         'liveness': liveness,
         'timeSig': timeSig,
-        'mode': mode,
-        'segments': segments
+        'mode': mode
     })
+    # if failed because bad code, refresh code
+    # except:
+    #         # currently just do nothing if failed cos refrehs not work
+    #         print("\n\nfailure!!\n\n")
+    # if successful, send all the data to the front end
+
+    # decide which template to give
+    # # if song has changed
+    # template = '/visuals'
+    # return redirect(template,{
+    #     'duration' : duration,
+    #     'position' : position,
+    #     'artist' : artistName,
+    #     'track' : track,
+    #     'art' : art,
+    #     'artistArtwork' : artistArtwork,
+    #     'beats' : beats,
+    #     'segments' : segments,
+    #     'pitches' : pitches,
+    #     'timbres' : timbres,
+    #     'acoustic': acoustic,
+    #     'dance': dance,
+    #     'energy': energy,
+    #     'instrument': instrument,
+    #     'speech': speech,
+    #     'valence': valence,
+    #     'tempo': tempo,
+    #     'key': key,
+    #     'liveness': liveness,
+    #     'timeSig': timeSig,
+    #     'mode': mode
+    # })
+    # # else
+def head(request):
+    template_name = 'mainApp/head.html'
+    return render(request, template_name)
+
+def cube(request):
+    template_name = 'mainApp/360Cube.html'
+    return render(request, template_name)
+
+def fourhead(request):
+    template_name = 'mainApp/4head.html'
+    return render(request, template_name)
+
+def movingColours(request):
+    template_name = 'mainApp/movingColours.html'
+    return render(request, template_name)
