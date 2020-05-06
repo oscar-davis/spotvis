@@ -1,10 +1,6 @@
 {% extends 'mainApp/base.html' %}
 {% load static %}
 {% block content %}
-<script src="https://d3js.org/d3-color.v1.min.js"></script>
-<script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
-<script src="{% static '/libraries/p5.min.js' %}" charset="utf-8"></script>
-  <script src="https://randojs.com/1.0.0.js"></script>
   <div class="loading" id="loading">
     <img width="300px"src="https://media.giphy.com/media/xTkcEQACH24SMPxIQg/giphy.gif" alt="loading_gif">
   </div>
@@ -19,7 +15,6 @@
       z-index: 10;
     }
   </style>
-<!-- <script id="visual" src="{% static 'getData.js' %}"></script> -->
 <script id="visual" type="module" src="{% static 'head.js' %}"></script>
 <div class="overlay header" id="overlayHeader">
   <div class="stats">

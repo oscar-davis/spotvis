@@ -80,12 +80,6 @@ function getProps(){
       liveness = data.liveness;
       timeSig = data.timeSig;
       mode = data.mode;
-      loudness_start.length = 0;
-      loudness_max.length = 0;
-      for (var i = 0; i < data.segments.length; i++) {
-        loudness_start[i]=Math.round((data.segments[i]['start']+data.segments[i]['loudness_max_time']) *1000);
-        loudness_max[i]=data.segments[i]['loudness_max'];
-      }
       trackDuration = data.duration;
       //update props HUD
       // timing
@@ -112,13 +106,14 @@ function initScene(){
 	scene = new THREE.Scene();
 	scene.background = new THREE.Color( 0x000000 );
 	scene.fog = new THREE.Fog( 0x000000, 200, 600 );
-	// create camera to provide a user's perspective
-	camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 2000 );
+
 	renderer = new THREE.WebGLRenderer({antialias:true});
 	// render canvas set to the size of the window
 	renderer.setSize(window.innerWidth, window.innerHeight);
 	// append the renderer to the html page
-	document.body.appendChild(renderer.domElement);
+	$("#visualContainer").append(renderer.domElement);
+  // create camera to provide a user's perspective
+	camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 2000 );
 	// initialise OrbitControls
 	controls = new OrbitControls( camera, renderer.domElement );
   controls.addEventListener( 'change', render );
@@ -269,7 +264,7 @@ function animate() {
     }
   }
   progress = trackPosition/trackDuration;
-  $("#progressBar").width(progress*500);
+  $("#progressBar").width(progress*window.innerWidth);
   ////////////////
   // HUD UPDATE //
   ////////////////

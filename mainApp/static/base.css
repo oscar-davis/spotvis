@@ -8,9 +8,19 @@ body{
   text-align:center;
   width: 100%;
 }
+.loading{
+  background: #16151A !important;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10;
+}
 .wrapper{
+  display: inline-block;
   margin: auto;
-  margin-top: 20vh;
+  margin-top: 10vh;
   text-align: center;
 }
   #spotifyLogo{
@@ -69,7 +79,6 @@ body{
   width: 100vw;
   height:80px;
   display: grid;
-  position: absolute;
   z-index: 1000;
 }
 #visual{
@@ -84,13 +93,19 @@ body{
   grid-template-rows: 48px;
 }
 .footer{
-  position: absolute;
-  bottom: 0;
-  grid-template-columns: 80px auto auto;
-  grid-template-rows: 80px;
+  position: relative;
+  top: 10;
+  grid-template-columns: 80px auto 100px;
+  grid-template-rows: 80px 10px;
 }
 .trackInfo{
   margin-left: 15px;
+}
+#hudArtist{
+    color: #ffffff;
+}
+#hudTrack{
+    color: #ffffff;
 }
 .hudCam{
   margin-left: 15px;
@@ -99,13 +114,35 @@ p{
   color: #000000;
   line-height: 90%;
 }
-#progressContainer{
+#backBtn{
+  grid-column: 3;
+  grid-row: 1;
   position: absolute;
-  right:0;
-  bottom:30;
-  margin-top: 30px;
-  margin-right: 20px;
+  right: 0;
+  bottom: 0;
+  text-decoration: none;
+  background-color: rgba(0,0,0,0);
+  border: 0px solid #FFFFFF;
+  color: #FFFFFF;
+  padding: 29px 64px 28.5px 64px;
+}
+#backBtn:hover{
+  background-color:#DDDDDD;
+  color:#000000;
+  transition: background-color 0.2s;
+  transition: color 0.2s;
+}
+#backBtn:active{
+  background-color:#AAAAAA;
+}
+#progressContainer{
+  grid-row: 2;
 }
 #progressBar{
   transition: 0s;
+}
+#visualContainer{
+  position: absolute;
+  padding: 0 !important;
+  margin: 0 !important;
 }

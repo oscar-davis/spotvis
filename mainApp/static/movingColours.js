@@ -110,13 +110,28 @@ function getProps(){
       yVal.length=0;
       xDir.length=0;
       yDir.length=0;
-      colLowerLim = (255*valence*2)-40;
-      if((255*valence*2)-40<0){colLowerLim=0;}
-      if((255*valence*2)-40>255){colLowerLim=155;}
-      colUpperLim = (255*valence*2);
-      if((255*valence*2)>255){colUpperLim=255;}
-      console.log('lower lim:'+colLowerLim);
-      console.log('upper lim:'+colUpperLim);
+      if(mode!==0){
+        colLowerLim = (12*mode)-40;
+        if((12*mode)-40<=0){
+          colLowerLim = random(255);
+        }
+        if((12*mode)-40>=235){
+          colLowerLim=random(255);
+        }
+      }
+      else{
+        colLowerLim = (valence*255*2)-40;
+        if((valence*255*2)-40<=0){
+          colLowerLim = random(255);
+        }
+        if((valence*255*2)-40>=235){
+          colLowerLim=random(255);
+        }
+      }
+
+      colUpperLim = colLowerLim + 60;
+      if((colLowerLim + 60)>255){colUpperLim=255;}
+
       addBlob();
     }
   })
@@ -147,6 +162,7 @@ function setup(){
   canvas.style('left', '0');
   canvas.style('position', 'absolute');
   colorMode(HSB, 255,255,255,255)
+  rectMode(CENTER);
   background(colors,50,255,100);
   frameRate(60);
   $("#loading").hide();
@@ -176,10 +192,10 @@ function draw() {
   if (i > nextTrackBeat) {
     nextTrackBeat = i;
     if(xVal.length>15){
-      xVal.length-=5;
-      yVal.length-=5;
-      xDir.length-=5;
-      yDir.length-=5;
+      xVal.shift();
+      yVal.shift();
+      xDir.shift();
+      yDir.shift();
     }
     //////////////////////////
     // BEAT SYNCED MOVEMENT //
@@ -231,8 +247,8 @@ function draw() {
 
   for (var j = 0; j < xVal.length; j++) {
     if(j<xVal.length/2){
-      xVal[j] += random(30*energy) * xDir[j];
-      yVal[j] += random(20*energy) * yDir[j];
+      xVal[j] += random(30*energy*energy) * xDir[j];
+      yVal[j] += random(20*energy*energy) * yDir[j];
     }
     else{
       xVal[j] += random(10*energy) * xDir[j];
