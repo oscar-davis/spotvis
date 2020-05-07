@@ -172,11 +172,15 @@ function scene1(){
 	camera.position.z = 0;
   controls.update();
 	// LIGHTS
-	var light = new THREE.PointLight( 0xFFCF1F, 100, 500 );
-	light.position.set( 0, -150, 100  );
+	var light = new THREE.PointLight( 0xC0C0C0, 20);
+	light.position.set( 0, -150, 200  );
 	scene.add( light );
 
-	var ambientLight = new THREE.AmbientLight( 0xFFFFFF );
+  var light1 = new THREE.PointLight( 0xC0C0C0, 20);
+	light1.position.set( 0, 150, 200  );
+	scene.add( light1 );
+
+	var ambientLight = new THREE.AmbientLight( 0xFFFFFF,2);
 	scene.add(ambientLight);
   controls.autoRotate = true;
 }
@@ -201,8 +205,8 @@ function loadHeads(){
 
   		head1.traverse((node) => {
   			if (!node.isMesh) return;
-  			//node.material.color = new THREE.Color(0xf00fff);
-        node.material = new THREE.MeshNormalMaterial();
+  			node.material.color = new THREE.Color(0xFFFF00);
+        // node.material = new THREE.MeshNormalMaterial();
   		});
   		scene.add( head1 );
   	});
@@ -218,8 +222,9 @@ function loadHeads(){
 
   		head2.traverse((node) => {
   			if (!node.isMesh) return;
-  			//node.material.color = new THREE.Color(0xf00fff);
-        node.material = new THREE.MeshNormalMaterial();
+        node.material.wireframe = true;
+  			node.material.color = new THREE.Color(0x0ff00f);
+        //node.material = new THREE.MeshNormalMaterial();
   		});
   		scene.add( head2 );
   	});
@@ -235,8 +240,9 @@ function loadHeads(){
 
   		head3.traverse((node) => {
   			if (!node.isMesh) return;
-  			//node.material.color = new THREE.Color(0xf00fff);
-        node.material = new THREE.MeshNormalMaterial();
+        node.material.wireframe = true;
+  			node.material.color = new THREE.Color(0xf00fff);
+        //node.material = new THREE.MeshNormalMaterial();
   		});
   		scene.add( head3 );
   	});
@@ -252,8 +258,9 @@ function loadHeads(){
 
   		head4.traverse((node) => {
   			if (!node.isMesh) return;
-  			//node.material.color = new THREE.Color(0xf00fff);
-        node.material = new THREE.MeshNormalMaterial();
+        node.material.wireframe = true;
+  			node.material.color = new THREE.Color(0x0422ff);
+        // node.material = new THREE.MeshNormalMaterial();
   		});
   		scene.add( head4 );
   	});
