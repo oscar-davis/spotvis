@@ -3,6 +3,10 @@ body{
   font-family: "Lucida Console", monaco;
   margin: 0px;
 }
+p{
+  color: #000000;
+  line-height: 90%;
+}
 .frontPage{
   margin: auto;
   text-align:center;
@@ -75,6 +79,7 @@ body{
     text-align: center;
   }
 .overlay {
+  color: #ffffff!important;
   background: rgba(0, 0, 0, 0.3);
   width: 100vw;
   height:80px;
@@ -102,17 +107,17 @@ body{
   margin-left: 15px;
 }
 #hudArtist{
-    color: #ffffff;
+  color: #ffffff;
 }
 #hudTrack{
-    color: #ffffff;
+  color: #ffffff;
+}
+#hudProps{
+  color: #ffffff;
 }
 .hudCam{
+  color: #ffffff;
   margin-left: 15px;
-}
-p{
-  color: #000000;
-  line-height: 90%;
 }
 #backBtn{
   grid-column: 3;

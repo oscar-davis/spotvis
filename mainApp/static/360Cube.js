@@ -95,7 +95,6 @@ function getProps(){
       selectScene();
       currentTrack = data.track;
       beatNo=1;
-      $("#overlayFooter").hide();
     }
   })
 }

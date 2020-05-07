@@ -1,18 +1,11 @@
 ////////////////
 //   SETUP    //
 ////////////////
-
-
 // gtlf converter: https://products.aspose.app/3d/conversion/obj-to-glb
-
-
-
-console.log("1 importing");
 import {OrbitControls} from "/static/libraries/three.js/OrbitControls.js";
 import Stats from '/static/libraries/three.js/stats.module.js';
 import {GLTFLoader} from '/static/libraries/three.js/GLTFLoader.js';
 
-console.log("2 constants");
 //CONSTANTS
 //colors
 const colors1 = [
@@ -108,7 +101,7 @@ function createScene(){
 	renderer.shadowMap.enabled = true;
 
 	// append the renderer to the html page
-	document.body.appendChild(renderer.domElement);
+	$("#visualContainer").append(renderer.domElement);
 
 	// initialise OrbitControls
 	var controls = new OrbitControls( camera, renderer.domElement );
