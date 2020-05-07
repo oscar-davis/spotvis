@@ -13,13 +13,18 @@ p{
   width: 100%;
 }
 .loading{
-  background: #16151A !important;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+  background: #000000 !important;
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
   width: 100vw;
   height: 100vh;
   z-index: 10;
+}
+#loadingGif{
+  display: block;
+  margin:auto;
+  vertical-align: middle;
 }
 .wrapper{
   display: inline-block;
