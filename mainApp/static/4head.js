@@ -170,6 +170,7 @@ function scene1(){
 	camera.position.x = 0;
 	camera.position.y = -500;
 	camera.position.z = 0;
+  controls.update();
 	// LIGHTS
 	var light = new THREE.PointLight( 0xFFCF1F, 100, 500 );
 	light.position.set( 0, -150, 100  );
@@ -177,6 +178,7 @@ function scene1(){
 
 	var ambientLight = new THREE.AmbientLight( 0xFFFFFF );
 	scene.add(ambientLight);
+  controls.autoRotate = true;
 }
 function scene2(){
 
@@ -321,4 +323,5 @@ function animate() {
   start++;
   progress = trackPosition/trackDuration;
   $("#progressBar").width(progress*window.innerWidth);
+  controls.update();
 }

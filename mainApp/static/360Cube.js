@@ -50,7 +50,7 @@ $(window).keydown(function( event ) {
 		$("#overlayHeader").toggle({duration:0});
 	}
   else if ( event.which == 82 ) {// r key pressed
-    // cycle thru scenes
+    console.log("camera: x:"+ Math.round(camera.position.x)+" y:"+Math.round(camera.position.y)+" z:"+Math.round(camera.position.z));
   }
 });
 //////////////////
@@ -95,6 +95,7 @@ function getProps(){
       for (var i = 0; i < data.beats.length; i++) {
         trackBeats[i] = Math.round(data.beats[i].start *1000);
       }
+      console.log("acousticness: " +acoustic+", danceability: "+dance+ ", energy: "+energy+", instrumentalness: "+instrument+ ", speech: "+speech+", valence: "+valence+", tempo: "+tempo+", key: "+key+", liveness: "+liveness+", time signature: "+timeSig+", mode: "+mode);
       $("#hudArtist").text(artist);
       $("#hudTrack").text(track);
       if ( $("#artwork").attr("src") != data.art ){
@@ -102,7 +103,7 @@ function getProps(){
       }
       selectScene();
       currentTrack = data.track;
-      beatNo=1;
+      beatNo=0;
     }
   })
 }
@@ -154,6 +155,7 @@ function emptyScene(){
   while(scene.children.length > 0){
       scene.remove(scene.children[0]);
   }
+  cube = 0;
 }
 //scene 1
 function scene1(){
@@ -242,39 +244,34 @@ function animate() {
     //////////////////////////
     // BEAT SYNCED MOVEMENT //
     //////////////////////////
+    beatNo ++;
     if(beatNo==1||beatNo==3){
       cubeScale = -1;
-      beatNo ++;
     }
     else if(beatNo==2||beatNo==4){
       cubeScale = 1;
-      beatNo ++;
     }
-    if(beatNo==5){
-      beatNo=1;
+    if(beatNo===4){
+      beatNo = 0;
     }
+
   }
   //////////////////////
   // ASYNCED MOVEMENT //
   //////////////////////
   if(start>100){
-    //cube.rotation.z += 0.007*energy;
+    cube.rotation.z += 0.007*energy;
     cube.rotation.y += 0.007*energy;
     if(energy>0.7){
-      cube.scale.y += cubeScale*0.5;
-      cube.scale.x += cubeScale*0.5;
+      cube.scale.y += cubeScale*0.05*dance;
+      cube.scale.x += cubeScale*0.05*dance;
       cube.rotation.z += 0.07*energy;
     }
     else{
-      cube.scale.y += cubeScale*0.01;
-      cube.scale.x += cubeScale*0.01;
+      cube.scale.y += cubeScale*0.01*dance;
+      cube.scale.x += cubeScale*0.01*dance;
     }
   }
   progress = trackPosition/trackDuration;
   $("#progressBar").width(progress*window.innerWidth);
-  ////////////////
-  // HUD UPDATE //
-  ////////////////
-	$("#hudCam").text("camera: x:"+ Math.round(camera.position.x)+" y:"+Math.round(camera.position.y)+" z:"+Math.round(camera.position.z));
-  $('#hudProps').text("acousticness: " +acoustic+", danceability: "+dance+ ", energy: "+energy+", instrumentalness: "+instrument+ ", speech: "+speech+", valence: "+valence+", tempo: "+tempo+", key: "+key+", liveness: "+liveness+", time signature: "+timeSig+", mode: "+mode+", loudness: ");
 }
