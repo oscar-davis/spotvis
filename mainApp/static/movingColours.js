@@ -294,7 +294,7 @@ function draw() {
     radius = (1-progress)*((1-dance)*800);
   }
 
-  $("#progressBar").width(progress*500);
+  $("#progressBar").width(progress*windowWidth);
 }
 
 
