@@ -7,12 +7,12 @@ from django.shortcuts import redirect
 import json
 import base64
 # admin global variables
-CLIENT_ID = 'a4b853b600994ffc93fa8494751523fe' # beta (remote) testing
-# CLIENT_ID = '39b910c2cd1b410d8dd7cf2623297970' # alpha (local) testing
-CLIENT_SECRET = 'c2854b4fc1a34972a8e2a46368ffbe41' # beta (remote) testing
-# CLIENT_SECRET = '452b27dec33a40c3bf16c72c29908ece' # alpha (local) testing
-REDIRECT_URI = 'https://spotvis.herokuapp.com/callback' # beta (remote) testing
-# REDIRECT_URI = 'http://localhost:8000/callback' # alpha (local) testing
+# CLIENT_ID = 'a4b853b600994ffc93fa8494751523fe' # beta (remote) testing
+CLIENT_ID = '39b910c2cd1b410d8dd7cf2623297970' # alpha (local) testing
+# CLIENT_SECRET = 'c2854b4fc1a34972a8e2a46368ffbe41' # beta (remote) testing
+CLIENT_SECRET = '452b27dec33a40c3bf16c72c29908ece' # alpha (local) testing
+# REDIRECT_URI = 'https://spotvis.herokuapp.com/callback' # beta (remote) testing
+REDIRECT_URI = 'http://localhost:8000/callback' # alpha (local) testing
 
 encodedData = base64.urlsafe_b64encode(bytes(f"{CLIENT_ID}:{CLIENT_SECRET}", "ISO-8859-1")).decode()
 
