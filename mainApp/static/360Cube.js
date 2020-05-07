@@ -55,9 +55,16 @@ $(window).keydown(function( event ) {
 });
 //////////////////
 // GET FUNCTION //
-//////////////////
+//////////////////var numPropsCalls = 0;
 function getProps(){
-  console.log("getting props");
+  numPropsCalls+=1;
+  if(numPropsCalls>200){
+    numPropsCalls = 0;
+    $.get("refresh","",function(data){
+      console.log(data.success);
+    });
+  }
+  else
   $.get("props","",function(data){
     if(trackPosition>data.position){
       lastTrackPositionUpdate = 0;

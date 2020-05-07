@@ -6,6 +6,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('authSend', views.authSend, name='authSend'),
     path('callback', views.callback, name='callback'),
+    path('refresh', views.refresh, name='refresh'),
     path('select', views.select, name='select'),
     path('props', views.props, name='props'),
     path('360Cube', views.cube, name='360Cube'),

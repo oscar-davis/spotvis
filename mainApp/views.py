@@ -17,6 +17,7 @@ REDIRECT_URI = 'http://localhost:8000/callback' # alpha (local) testing
 encodedData = base64.urlsafe_b64encode(bytes(f"{CLIENT_ID}:{CLIENT_SECRET}", "ISO-8859-1")).decode()
 
 SCOPE = 'user-read-currently-playing'
+
 def authSend(request):
     response = redirect('https://accounts.spotify.com/authorize' +
       '?response_type=code' +
@@ -39,7 +40,9 @@ def callback(request):
     return redirect('/select')
 
 def refresh(request):
-    #  need to add in when/how to trigger refresh tokens, but this is correct
+    # refresh access token
+    print('current access token:')
+    print(request.session['token'])
     url = "https://accounts.spotify.com/api/token"
     headers = {
         "Authorization": "Basic %s" % encodedData
@@ -48,14 +51,13 @@ def refresh(request):
         'grant_type':'refresh_token',
         'refresh_token':request.session['refresh'],
     }
-    print(encodedData)
     response = requests.post(url = url, data = data, headers = headers)
-    print("\n\n\n\n\n\n refresh response:")
-    print(response.json())
-    print("\n\n\n\n\n\n")
     request.session['token'] = response.json()['access_token']
-
-    return redirect('/movingColours')
+    print('new access token:')
+    print(request.session['token'])
+    return JsonResponse({
+        'success' : 'access token refreshed'
+    })
 
 def index(request):
     template_name = 'mainApp/index.html'

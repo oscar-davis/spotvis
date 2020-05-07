@@ -50,8 +50,16 @@ $(window).keydown(function( event ) {
 //////////////////
 // GET FUNCTION //
 //////////////////
+var numPropsCalls = 0;
 function getProps(){
-  console.log("getting props");
+  numPropsCalls+=1;
+  if(numPropsCalls>200){
+    numPropsCalls = 0;
+    $.get("refresh","",function(data){
+      console.log(data.success);
+    });
+  }
+  else
   $.get("props","",function(data){
     if(trackPosition>data.position){
       lastTrackPositionUpdate = 0;
@@ -110,12 +118,12 @@ function getProps(){
       yVal.length=0;
       xDir.length=0;
       yDir.length=0;
-      if(mode!==0){
+      if(key!==0){
         colLowerLim = (12*mode)-40;
-        if((12*mode)-40<=0){
+        if((12*key)-40<=0){
           colLowerLim = random(255);
         }
-        if((12*mode)-40>=235){
+        if((12*key)-40>=235){
           colLowerLim=random(255);
         }
       }

@@ -57,9 +57,16 @@ $(window).keydown(function( event ) {
 });
 //////////////////
 // GET FUNCTION //
-//////////////////
+//////////////////var numPropsCalls = 0;
 function getProps(){
-  console.log("getting props");
+  numPropsCalls+=1;
+  if(numPropsCalls>200){
+    numPropsCalls = 0;
+    $.get("refresh","",function(data){
+      console.log(data.success);
+    });
+  }
+  else
   $.get("props","",function(data){
     if(trackPosition>data.position){
       lastTrackPositionUpdate = 0;
@@ -282,15 +289,19 @@ function animate() {
 
     if(beatNo==1){
       head1.rotation.z=1.2*direction;
+      head1.rotation.x=1.2*direction;
     }
     if(beatNo==2){
       head2.rotation.z=1.2*direction;
+      head2.rotation.y=1.2*direction;
     }
     if(beatNo==3){
       head3.rotation.z=1.2*direction;
+      head3.rotation.x=1.2*direction;
     }
     if(beatNo==4){
       head4.rotation.z=1.2*direction;
+      head4.rotation.y=1.2*direction;
       beatNo = 0;
       direction=direction*-1;
     }
