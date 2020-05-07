@@ -57,7 +57,8 @@ $(window).keydown(function( event ) {
 });
 //////////////////
 // GET FUNCTION //
-//////////////////var numPropsCalls = 0;
+//////////////////
+var numPropsCalls = 0;
 function getProps(){
   numPropsCalls+=1;
   if(numPropsCalls>200){
