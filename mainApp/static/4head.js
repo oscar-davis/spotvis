@@ -26,7 +26,6 @@ var trackDuration = 0;
 var lastTrackPositionUpdate = 0;
 var trackBeats = [];
 var nextTrackBeat = 0;
-var nextLoudness = 0;
 var beatNo = 1;
 var bar;
 var direction=1;
@@ -39,22 +38,6 @@ initScene();
 animate();
 getProps();
 var timedGETRequests = setInterval(getProps, 2500);
-////////////////////
-// EVENT HANDLERS //
-////////////////////
-$(window).keydown(function( event ) {
-  if ( event.which == 72 ) {// h key pressed
-		//hide user HUD
-		$("#overlayFooter").toggle({duration:0});
-	}
-	else if ( event.which == 73 ) {// i key pressed
-		// hide info display
-		$("#overlayHeader").toggle({duration:0});
-	}
-  else if ( event.which == 82 ) {// r key pressed
-    console.log("camera: x:"+ Math.round(camera.position.x)+" y:"+Math.round(camera.position.y)+" z:"+Math.round(camera.position.z));
-  }
-});
 //////////////////
 // GET FUNCTION //
 //////////////////
@@ -112,6 +95,22 @@ function getProps(){
     }
   })
 }
+////////////////////
+// EVENT HANDLERS //
+////////////////////
+$(window).keydown(function( event ) {
+  if ( event.which == 72 ) {// h key pressed
+		//hide user HUD
+		$("#overlayFooter").toggle({duration:0});
+	}
+	else if ( event.which == 73 ) {// i key pressed
+		// hide info display
+		$("#overlayHeader").toggle({duration:0});
+	}
+  else if ( event.which == 82 ) {// r key pressed
+    console.log("camera: x:"+ Math.round(camera.position.x)+" y:"+Math.round(camera.position.y)+" z:"+Math.round(camera.position.z));
+  }
+});
 ////////////////////
 // SETUP FUNCTION //
 ////////////////////
