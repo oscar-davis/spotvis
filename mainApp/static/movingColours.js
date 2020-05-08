@@ -6,9 +6,6 @@ var artist = 'artist';
 var track = 'track';
 var acoustic, dance, instrument, speech, valence, tempo, key, liveness, timeSig, mode, loudness;
 var energy = 0.5;
-var loudness_max = [];
-var loudness_start = [];
-var pitches = [];
 //scene
 //timing
 var currentTrack;
@@ -18,8 +15,6 @@ var trackDuration = 0;
 var lastTrackPositionUpdate = 0;
 var trackBeats = [];
 var nextTrackBeat = 0;
-var nextLoudness = 0;
-var beatNo = 1;
 //ANIMATION
 var x = 0;
 var dim =[10,10,10,10,10,10,10,10,10,10,10,10];
@@ -28,25 +23,6 @@ var dim =[10,10,10,10,10,10,10,10,10,10,10,10];
 ///////////////////
 getProps();
 var timedGETRequests = setInterval(getProps, 2500);
-////////////////////
-// EVENT HANDLERS //
-////////////////////
-$(window).keydown(function( event ) {
-  // console.log(event.which);
-  if ( event.which == 72 ) {// h key pressed
-		//hide user HUD
-		$("#overlayFooter").toggle({duration:0});
-	}
-	else if ( event.which == 73 ) {// i key pressed
-		// hide info display
-		$("#overlayHeader").toggle({duration:0});
-	}
-  else if ( event.which == 82 ) {// r key pressed
-    // cycle thru scenes
-  }else if ( event.which == 86 ) {// v key pressed
-    $("#video").toggle();
-  }
-});
 //////////////////
 // GET FUNCTION //
 //////////////////
@@ -86,16 +62,7 @@ function getProps(){
       trackPosition = 0;
       lastTrackPositionUpdate = 0;
       nextTrackBeat = 0;
-      // loudness_start.length = 0;
-      // loudness_max.length = 0;
-      // pitches.length = 0;
-      // for (var i = 0; i < data.segments.length; i++) {
-      //   loudness_start[i]=Math.round((data.segments[i]['start']+data.segments[i]['loudness_max_time']) *1000);
-      //   loudness_max[i]=data.segments[i]['loudness_max'];
-      //   pitches[i]=data.segments[i]['timbre'];
-      // }
       trackDuration = data.duration;
-      //update props HUD
       // timing
       trackBeats.length=0;
       for (var i = 0; i < data.beats.length; i++) {
@@ -139,11 +106,29 @@ function getProps(){
 
       colUpperLim = colLowerLim + 60;
       if((colLowerLim + 60)>255){colUpperLim=255;}
-
       addBlob();
     }
   })
 }
+////////////////////
+// EVENT HANDLERS //
+////////////////////
+$(window).keydown(function( event ) {
+  // console.log(event.which);
+  if ( event.which == 72 ) {// h key pressed
+		//hide user HUD
+		$("#overlayFooter").toggle({duration:0});
+	}
+	else if ( event.which == 73 ) {// i key pressed
+		// hide info display
+		$("#overlayHeader").toggle({duration:0});
+	}
+  else if ( event.which == 82 ) {// r key pressed
+    // cycle thru scenes
+  }else if ( event.which == 86 ) {// v key pressed
+    $("#video").toggle();
+  }
+});
 /////////////////////////
 // ANIMATION VARIABLES //
 /////////////////////////
@@ -158,7 +143,6 @@ var colLowerLim = 0;
 var colUpperLim = 20;
 var bar = 1;
 var rot = 0;
-
 var rotatingRect;
 ////////////////////
 // SETUP FUNCTION //
@@ -233,12 +217,6 @@ function draw() {
         }
         bar = 0;
     }
-    // if(bar===1){
-    //   for (var j = 0; j < xVal.length; j++) {
-    //     xVal[j] = random(windowWidth/2) + windowWidth/4;
-    //     yVal[j] = random(windowHeight/2) + windowHeight/4;
-    //   }
-    // }
     bar +=1;
   }
   //////////////////////
@@ -251,8 +229,6 @@ function draw() {
   if(colors<=colLowerLim){
     colDir = 1;
   }
-
-
   for (var j = 0; j < xVal.length; j++) {
     if(j<xVal.length/2){
       xVal[j] += random(30*energy*energy) * xDir[j];
@@ -262,14 +238,12 @@ function draw() {
       xVal[j] += random(10*energy) * xDir[j];
       yVal[j] += random(10*energy) * yDir[j];
     }
-
     if(energy>0.7&&(progress>1-dance&&progress<dance)&&(bar===2||bar===4)){
       fill(random(255),50,255,100);
       noStroke();
       ellipse(windowWidth/2,windowHeight/2,windowWidth/4,windowWidth/4);
     }
-
-    // boundaries
+    // set blob boundaries
     if (xVal[j]> (  windowWidth/2 + ((windowWidth/2)*(1-energy) + 50) + (progress * 100) ) ){
       xDir[j] = -1;
     }
@@ -282,22 +256,21 @@ function draw() {
     if (yVal[j]< ( (windowHeight/2) - ((windowHeight/2)*(1-energy)) - 50 - (progress * 100)) ){
       yDir[j] = 1;
     }
+    // draw in blobs
     drawBlob(xVal[j],yVal[j],xVal.length/2,j);
   }
   progress = trackPosition/trackDuration;
-
-
+  // change the radius of blobs in relation to danceability and progress in song
   if(progress<0.7){
     radius = progress*((1-dance)*800);
   }
   else{
     radius = (1-progress)*((1-dance)*800);
   }
-
+  // update width of progress bar in HUD
   $("#progressBar").width(progress*windowWidth);
 }
-
-
+//draw set of blobs on the screen
 function drawBlob(x,y,length,j){
     fill(colors,255,255,100);
     if(acoustic>0.6){
@@ -314,7 +287,7 @@ function drawBlob(x,y,length,j){
     }
 
 }
-
+// add blob to set of blobs
 function addBlob(){
   xVal.push(random(windowWidth));
   yVal.push(random(windowHeight));
