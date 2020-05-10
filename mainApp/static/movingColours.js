@@ -183,6 +183,7 @@ function draw() {
   }
   if (i > nextTrackBeat) {
     nextTrackBeat = i;
+    // if there are more than 15 blobs on screen, remove the oldest one
     if(xVal.length>15){
       xVal.shift();
       yVal.shift();
@@ -273,12 +274,16 @@ function draw() {
 //draw set of blobs on the screen
 function drawBlob(x,y,length,j){
     fill(colors,255,255,100);
+    // if the music is acoustiv, no border on the blobs
     if(acoustic>0.6){
       noStroke();
     }
+    // if the music isnt acoustic, black border on blobs
     else{
       stroke('black');
     }
+
+    // make half of the blobs rectangles and half ellipses
     if(length>j){
       rect(x,y,random(radius),random(radius));
     }

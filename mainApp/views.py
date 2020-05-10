@@ -6,6 +6,7 @@ import requests
 from django.shortcuts import redirect
 import json
 import base64
+
 # admin global variables
 CLIENT_ID = 'a4b853b600994ffc93fa8494751523fe' # beta (remote) testing
 # CLIENT_ID = '39b910c2cd1b410d8dd7cf2623297970' # alpha (local) testing
@@ -29,14 +30,11 @@ def authSend(request):
 
 def callback(request):
     code = request.GET['code']
-
     post_url = 'https://accounts.spotify.com/api/token'
     body = {'grant_type': 'authorization_code', 'code': code, 'redirect_uri': REDIRECT_URI, 'client_id':CLIENT_ID, 'client_secret':CLIENT_SECRET}
-
     response = requests.post(post_url,body)
     request.session['token'] = response.json()['access_token']
     request.session['refresh'] = response.json()['refresh_token']
-
     return redirect('/select')
 
 def refresh(request):
@@ -67,6 +65,22 @@ def select(request):
     template_name = 'mainApp/select.html'
     return render(request, template_name)
 
+def head(request):
+    template_name = 'mainApp/head.html'
+    return render(request, template_name)
+
+def cube(request):
+    template_name = 'mainApp/360Cube.html'
+    return render(request, template_name)
+
+def fourhead(request):
+    template_name = 'mainApp/4head.html'
+    return render(request, template_name)
+
+def movingColours(request):
+    template_name = 'mainApp/movingColours.html'
+    return render(request, template_name)
+
 def props(request):
     # create spotipy object
     spotify = spotipy.Spotify(auth=request.session['token'])
@@ -82,17 +96,6 @@ def props(request):
     analysis = spotify.audio_analysis(trackId)# audio analysis object
     features = spotify.audio_features(trackId)# audio features object
     beats = analysis['beats']# array of beat time locations
-    # set segments, timbre and pitches
-    # segments = list()
-    # pitches = list()
-    # timbres = list()
-    # i = 0
-    # while (i<len(analysis['segments'])):
-    #     segments.append(analysis['segments'][i]['start'])
-    #     pitches.append(analysis['segments'][i]['pitches'])
-    #     timbres.append(analysis['segments'][i]['timbre'])
-    #     i += 1
-    #props:
     acoustic = features[0]['acousticness']
     dance = features[0]['danceability']
     energy = features[0]['energy']
@@ -127,51 +130,3 @@ def props(request):
         'timeSig': timeSig,
         'mode': mode
     })
-    # if failed because bad code, refresh code
-    # except:
-    #         # currently just do nothing if failed cos refrehs not work
-    #         print("\n\nfailure!!\n\n")
-    # if successful, send all the data to the front end
-
-    # decide which template to give
-    # # if song has changed
-    # template = '/visuals'
-    # return redirect(template,{
-    #     'duration' : duration,
-    #     'position' : position,
-    #     'artist' : artistName,
-    #     'track' : track,
-    #     'art' : art,
-    #     'artistArtwork' : artistArtwork,
-    #     'beats' : beats,
-    #     'segments' : segments,
-    #     'pitches' : pitches,
-    #     'timbres' : timbres,
-    #     'acoustic': acoustic,
-    #     'dance': dance,
-    #     'energy': energy,
-    #     'instrument': instrument,
-    #     'speech': speech,
-    #     'valence': valence,
-    #     'tempo': tempo,
-    #     'key': key,
-    #     'liveness': liveness,
-    #     'timeSig': timeSig,
-    #     'mode': mode
-    # })
-    # # else
-def head(request):
-    template_name = 'mainApp/head.html'
-    return render(request, template_name)
-
-def cube(request):
-    template_name = 'mainApp/360Cube.html'
-    return render(request, template_name)
-
-def fourhead(request):
-    template_name = 'mainApp/4head.html'
-    return render(request, template_name)
-
-def movingColours(request):
-    template_name = 'mainApp/movingColours.html'
-    return render(request, template_name)
